@@ -4,7 +4,7 @@
 [[Paper](https://ps.is.tuebingen.mpg.de/uploads_file/attachment/attachment/497/SMPL-X.pdf)]
 [[Supp. Mat.](https://ps.is.tuebingen.mpg.de/uploads_file/attachment/attachment/498/SMPL-X-supp.pdf)]
 
-![SMPL-X Examples](./images/teaser_fig.png)
+![SMPL-X Examples](data/images/teaser_fig.png)
 
 ## Table of Contents
   * [License](#license)

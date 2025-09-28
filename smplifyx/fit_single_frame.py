@@ -43,7 +43,7 @@ import PIL.Image as pil_img
 from optimizers import optim_factory
 
 import fitting
-from human_body_prior.tools.model_loader import load_vposer
+from human_body_prior.tools.model_loader import load_model
 
 
 def fit_single_frame(img,
@@ -185,7 +185,7 @@ def fit_single_frame(img,
                                      requires_grad=True)
 
         vposer_ckpt = osp.expandvars(vposer_ckpt)
-        vposer, _ = load_vposer(vposer_ckpt, vp_model='snapshot')
+        vposer, _ = load_model(vposer_ckpt, vp_model='snapshot')
         vposer = vposer.to(device=device)
         vposer.eval()
 
