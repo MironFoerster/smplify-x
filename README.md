@@ -43,36 +43,26 @@ python smplifyx/main.py --config cfg_files/fit_smplx.yaml
     --output_folder OUTPUT_FOLDER 
     --visualize="True/False"
     --model_folder MODEL_FOLDER
-    --vposer_ckpt VPOSER_FOLDER
+    --vposer_ckpt VPOSER_CKPT_FOLDER
     --part_segm_fn smplx_parts_segm.pkl
 ```
-where the `DATA_FOLDER` should contain two subfolders, *images*, where the
-images are located, and *keypoints*, where the OpenPose output should be
-stored.
 
-### Different Body Models
+`--config cfg_files/fit_smplx.yaml` (REQUIRED) Choose a file from `cfg_files/` according to the model_type you want to use. The files provide a default configuration. You can override specific values with command line parameters like the following:
 
-To fit [SMPL](http://smpl.is.tue.mpg.de/) or [SMPL+H](http://mano.is.tue.mpg.de), replace the *yaml* configuration file 
-with either *fit_smpl.yaml* or *fit_smplx.yaml*, i.e.:
- * for SMPL:
- ```Shell
- python smplifyx/main.py --config cfg_files/fit_smpl.yaml 
-    --data_folder DATA_FOLDER 
-    --output_folder OUTPUT_FOLDER 
-    --visualize="True/False"
-    --model_folder MODEL_FOLDER
-    --vposer_ckpt VPOSER_FOLDER
- ```
-  * for SMPL+H:
- ```Shell
- python smplifyx/main.py --config cfg_files/fit_smplh.yaml 
-    --data_folder DATA_FOLDER 
-    --output_folder OUTPUT_FOLDER 
-    --visualize="True/False"
-    --model_folder MODEL_FOLDER
-    --vposer_ckpt VPOSER_FOLDER
- ```
- 
+`--data_folder DATA_FOLDER` (default is 'data/') Should contain two subfolders, *images/*, where the
+images are located, and *keypoints/*, where the OpenPose output should be
+stored. 
+
+`--output_folder OUTPUT_FOLDER ` (default is 'smplx_debug/' or 'smpl_debug/' or etc. depending on the chosen config file) Will be generated automatically and contain all outputs of the fitting.
+
+`--visualize="True/False"` (default is "True")
+
+`--model_folder MODEL_FOLDER` (default is 'models/') Should contain subfolders for each model type you intend to use (smpl/smplx/smplh/etc...) each containing the respective models. (download the models from https://smpl.is.tue.mpg.de/, project pages of other model variants, not only smpl, are also linked there)
+
+`--vposer_ckpt VPOSER_CKPT_FOLDER` (empty by default) if you already have a vposer checkpoint that you want to use, you can pass it here
+
+`--part_segm_fn smplx_parts_segm.pkl` (empty by default) if you want to do PyTorch Mesh self-intersection (see [Optional Dependencies](#optional-dependencies))
+
 ### Visualizing Results
 
 To visualize the results produced by the method you can run the following script:
