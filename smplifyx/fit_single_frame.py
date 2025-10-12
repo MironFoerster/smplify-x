@@ -44,6 +44,7 @@ from optimizers import optim_factory
 
 import fitting
 from human_body_prior.tools.model_loader import load_model
+from human_body_prior.models.vposer_model import VPoser
 
 
 def fit_single_frame(img,
@@ -185,7 +186,7 @@ def fit_single_frame(img,
                                      requires_grad=True)
 
         vposer_ckpt = osp.expandvars(vposer_ckpt)
-        vposer, _ = load_model(vposer_ckpt, vp_model='snapshot')
+        vposer, _ = load_model(vposer_ckpt, model_code=VPoser, remove_words_in_model_weights='vp_model.')
         vposer = vposer.to(device=device)
         vposer.eval()
 
@@ -193,10 +194,12 @@ def fit_single_frame(img,
         body_mean_pose = torch.zeros([batch_size, vposer_latent_dim],
                                      dtype=dtype)
     else:
-        body_mean_pose = body_pose_prior.get_mean().detach().cpu()
+        body_pose_shape = body_model.body_pose.shape[-1]
+        body_mean_pose = torch.zeros([batch_size, body_pose_shape], dtype=dtype) #body_pose_prior.get_mean().detach().cpu()
 
     keypoint_data = torch.tensor(keypoints, dtype=dtype)
     gt_joints = keypoint_data[:, :, :2]
+    joints_conf = None
     if use_joints_conf:
         joints_conf = keypoint_data[:, :, 2].reshape(1, -1)
 
@@ -483,9 +486,7 @@ def fit_single_frame(img,
             pickle.dump(results[min_idx]['result'], result_file, protocol=2)
 
     if save_meshes or visualize:
-        body_pose = vposer.decode(
-            pose_embedding,
-            output_type='aa').view(1, -1) if use_vposer else None
+        body_pose = vposer.decode(pose_embedding)['pose_body'].contiguous().view(1, -1) if use_vposer else None
 
         model_type = kwargs.get('model_type', 'smpl')
         append_wrists = model_type == 'smpl' and use_vposer

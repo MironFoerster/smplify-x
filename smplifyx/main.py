@@ -198,6 +198,7 @@ def main(**args):
     # Add a fake batch dimension for broadcasting
     joint_weights.unsqueeze_(dim=0)
 
+    print('Processing {} images...'.format(len(dataset_obj)))
     for idx, data in enumerate(dataset_obj):
 
         img = data['img']

@@ -1,5 +1,12 @@
 #### joe made this: http://goel.io/joe
 
+models/
+*_debug/
+data/
+data*/
+vposer*
+V02_05/
+
 #####=== Python ===#####
 
 # Byte-compiled / optimized / DLL files

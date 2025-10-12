@@ -50,7 +50,7 @@ python smplifyx/main.py --config cfg_files/fit_smplx.yaml
 `--config cfg_files/fit_smplx.yaml` (REQUIRED) Choose a file from `cfg_files/` according to the model_type you want to use. The files provide a default configuration. You can override specific values with command line parameters like the following:
 
 `--data_folder DATA_FOLDER` (default is 'data/') Should contain two subfolders, *images/*, where the
-images are located, and *keypoints/*, where the OpenPose output should be
+images are located (only .png or .jpg), and *keypoints/*, where the OpenPose output should be
 stored. 
 
 `--output_folder OUTPUT_FOLDER ` (default is 'smplx_debug/' or 'smpl_debug/' or etc. depending on the chosen config file) Will be generated automatically and contain all outputs of the fitting.
@@ -59,7 +59,7 @@ stored.
 
 `--model_folder MODEL_FOLDER` (default is 'models/') Should contain subfolders for each model type you intend to use (smpl/smplx/smplh/etc...) each containing the respective models. (download the models from https://smpl.is.tue.mpg.de/, project pages of other model variants, not only smpl, are also linked there)
 
-`--vposer_ckpt VPOSER_CKPT_FOLDER` (empty by default) if you already have a vposer checkpoint that you want to use, you can pass it here
+`--vposer_ckpt VPOSER_CKPT_FOLDER` (empty by default) if you want to use vposer as pose prior, download VPoser 2.0 from https://smpl-x.is.tue.mpg.de/ and reference it here. should contain a .yaml file and a snapshots/ folder with .ckpt-files
 
 `--part_segm_fn smplx_parts_segm.pkl` (empty by default) if you want to do PyTorch Mesh self-intersection (see [Optional Dependencies](#optional-dependencies))
 

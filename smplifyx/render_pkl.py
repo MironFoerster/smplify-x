@@ -25,6 +25,7 @@ import smplx
 
 from cmd_parser import parse_config
 from human_body_prior.tools.model_loader import load_model
+from human_body_prior.models.vposer_model import VPoser
 
 from utils import JointMapper
 import pyrender
@@ -78,7 +79,7 @@ if __name__ == '__main__':
                                      requires_grad=True)
 
         vposer_ckpt = osp.expandvars(vposer_ckpt)
-        vposer, _ = load_model(vposer_ckpt, vp_model='snapshot')
+        vposer, _ = load_model(vposer_ckpt, model_code=VPoser, remove_words_in_model_weights='vp_model.')
         vposer = vposer.to(device=device)
         vposer.eval()
 
@@ -93,8 +94,7 @@ if __name__ == '__main__':
         est_params = {}
         for key, val in data.items():
             if key == 'body_pose' and use_vposer:
-                body_pose = vposer.decode(
-                    pose_embedding, output_type='aa').view(1, -1)
+                body_pose = vposer.decode(pose_embedding)['pose_body'].contiguous().view(1, -1)
                 if model_type == 'smpl':
                     wrist_pose = torch.zeros([body_pose.shape[0], 6],
                                              dtype=body_pose.dtype,
